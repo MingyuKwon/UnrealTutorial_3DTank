@@ -13,5 +13,14 @@ UCLASS()
 class TOONTANKS_API APlayerTank : public ATank
 {
 	GENERATED_BODY()
-	
+
+public :
+	APlayerTank();
+
+private :
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class USpringArmComponent* springArmComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* cameraComp;
+
 };
