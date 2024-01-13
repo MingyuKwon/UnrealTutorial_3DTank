@@ -28,7 +28,12 @@ public:
 
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite , Category = "Compoents", meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CapsuleComp;
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Compoents", meta = (AllowPrivateAccess = "true"))
+	class USphereComponent* ProjectileSpawnPoint;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Compoents", meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* BaseMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Compoents", meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* TurretMesh;
 };
