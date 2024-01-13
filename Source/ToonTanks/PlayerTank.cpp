@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 APlayerTank::APlayerTank()
 {
@@ -24,5 +25,7 @@ void APlayerTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void APlayerTank::Move(float value)
 {
-	UE_LOG(LogTemp, Display, TEXT("value : %f"), value);
+	FVector moveVector(1.0f, 0.0f, 0.0f);
+	moveVector = moveVector * value * speed * UGameplayStatics::GetWorldDeltaSeconds(this);
+	AddActorLocalOffset(moveVector);
 }
