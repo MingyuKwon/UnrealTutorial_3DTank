@@ -21,11 +21,19 @@ void APlayerTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &APlayerTank::Move);
+	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &APlayerTank::Turn);
 }
 
 void APlayerTank::Move(float value)
 {
 	FVector moveVector(1.0f, 0.0f, 0.0f);
-	moveVector = moveVector * value * speed * UGameplayStatics::GetWorldDeltaSeconds(this);
-	AddActorLocalOffset(moveVector);
+	moveVector = moveVector * value * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
+	AddActorLocalOffset(moveVector, true);
+}
+
+void APlayerTank::Turn(float value)
+{
+	FRotator turnRotator(0.0f, 1.0f, 0.0f);
+	turnRotator = turnRotator * value * RotateSpeed * UGameplayStatics::GetWorldDeltaSeconds(this);
+	AddActorLocalRotation(turnRotator, true);
 }
