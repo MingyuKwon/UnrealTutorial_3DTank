@@ -4,6 +4,8 @@
 #include "Tank.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ATank::ATank()
@@ -23,16 +25,29 @@ ATank::ATank()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
+void ATank::RotateTurret(FVector targetPoint)
 {
-	Super::BeginPlay();
-	
+	FVector ToTarget = targetPoint - TurretMesh->GetComponentLocation();
+	FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw,0.f);
+
+	TurretMesh->SetWorldRotation(
+		FMath::RInterpTo(TurretMesh->GetComponentRotation(), 
+		LookAtRotation, 
+		UGameplayStatics::GetWorldDeltaSeconds(this), 
+		10.f));
 }
 
-// Called every frame
-void ATank::Tick(float DeltaTime)
+void ATank::Fire()
 {
-	Super::Tick(DeltaTime);
+	DrawDebugSphere(
+		GetWorld(),
+		ProjectileSpawnPoint->GetComponentLocation(),
+		5.f,
+		12,
+		FColor::Red,
+		false,
+		3.f
+	);
 }
+
 
