@@ -22,7 +22,14 @@ void APlayerTank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	playerControllerRef = Cast<APlayerController>(GetController());
+	TankplayerController = Cast<APlayerController>(GetController());
+}
+
+void APlayerTank::HandleDestruction()
+{
+	Super::HandleDestruction();
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
 }
 
 // Called every frame
@@ -30,10 +37,10 @@ void APlayerTank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (playerControllerRef)
+	if (TankplayerController)
 	{
 		FHitResult hitResult;
-		playerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
+		TankplayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
 		DrawDebugSphere(
 			GetWorld(),
 			hitResult.ImpactPoint,

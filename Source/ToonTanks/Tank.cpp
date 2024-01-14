@@ -26,6 +26,11 @@ ATank::ATank()
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
+void ATank::HandleDestruction()
+{
+	// 죽을 때 방생하는 시작. 음향 효과 
+}
+
 void ATank::RotateTurret(FVector targetPoint)
 {
 	FVector ToTarget = targetPoint - TurretMesh->GetComponentLocation();

@@ -23,6 +23,10 @@ public :
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void HandleDestruction();
+
+	APlayerController* GetPlayerController() const {return TankplayerController;}
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private :
@@ -40,6 +44,6 @@ private :
 	void Turn(float value);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Input", meta = (AllowPrivateAccess = "true"))
-	APlayerController* playerControllerRef;
+	APlayerController* TankplayerController;
 
 };
