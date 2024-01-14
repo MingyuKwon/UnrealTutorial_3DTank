@@ -28,4 +28,7 @@ private:
 	UStaticMeshComponent* BaseMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Compoents", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* TurretMesh;
+
+	UPROPERTY(EditDefaultsOnly, Category="Combat")
+	TSubclassOf<class AProjectile> ProjectileClass;
 };

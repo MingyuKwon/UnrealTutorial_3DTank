@@ -2,6 +2,7 @@
 
 
 #include "Tank.h"
+#include "Projectile.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -39,15 +40,12 @@ void ATank::RotateTurret(FVector targetPoint)
 
 void ATank::Fire()
 {
-	DrawDebugSphere(
-		GetWorld(),
-		ProjectileSpawnPoint->GetComponentLocation(),
-		5.f,
-		12,
-		FColor::Red,
-		false,
-		3.f
-	);
+	auto projectile = GetWorld()->SpawnActor<AProjectile>
+		(ProjectileClass, 
+		ProjectileSpawnPoint->GetComponentLocation(), 
+		ProjectileSpawnPoint -> GetComponentRotation());
+
+	projectile->SetOwner(this);
 }
 
 
