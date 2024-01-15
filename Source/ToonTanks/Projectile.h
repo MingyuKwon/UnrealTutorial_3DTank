@@ -49,4 +49,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	USoundBase* HitSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
+	TSubclassOf<class UCameraShakeBase> HitCameraShakeClass;
 };

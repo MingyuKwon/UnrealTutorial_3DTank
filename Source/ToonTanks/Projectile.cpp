@@ -8,6 +8,7 @@
 #include "Particles/ParticleSystemComponent.h"
 
 
+
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -58,11 +59,20 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
 		UGameplayStatics::ApplyDamage(OtherActor,Damage, MyOwnerInstigator, this, MyDamageType);
 		if (HitParticles)
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
+		}
+
+		if (HitSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
+		}
+
+		if (HitCameraShakeClass)
+		{
+			GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(HitCameraShakeClass);
 		}
 	}
 
