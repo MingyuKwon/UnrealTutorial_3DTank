@@ -29,6 +29,8 @@ ATank::ATank()
 void ATank::HandleDestruction()
 {
 	// 죽을 때 방생하는 시작. 음향 효과 
+	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation());
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
 }
 
 void ATank::RotateTurret(FVector targetPoint)
