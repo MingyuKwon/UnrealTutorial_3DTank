@@ -12,8 +12,18 @@ void ATankGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Tank = Cast<APlayerTank>(UGameplayStatics::GetPlayerPawn(this, 0));
-	playerController = Cast<ATankPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	HandleGameStart();
+	TargetTowers = GetTargetTowerCount();
+	
+
+	
+}
+
+int32 ATankGameMode::GetTargetTowerCount()
+{
+	TArray<AActor*> outArray;
+	UGameplayStatics::GetAllActorsOfClass(this, ATower::StaticClass(), outArray);
+	return outArray.Num();
 }
 
 void ATankGameMode::ActorDied(AActor* DeadActor)
@@ -25,11 +35,46 @@ void ATankGameMode::ActorDied(AActor* DeadActor)
 		{
 			playerController->SetPlayerEnabledState(false);
 		}
+
+		GameOver(false);
 		
 	}
 	else if (ATower* DestroyedTower = Cast<ATower>(DeadActor))
 	{
 		DestroyedTower->HandleDestruction();
+		TargetTowers--;
+		 
+		if (TargetTowers <= 0)
+		{
+			GameOver(true);
+		}
+	}
+}
+
+void ATankGameMode::HandleGameStart()
+{
+	Tank = Cast<APlayerTank>(UGameplayStatics::GetPlayerPawn(this, 0));
+	playerController = Cast<ATankPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+
+	StartGame();
+
+
+	if (playerController)
+	{
+		playerController->SetPlayerEnabledState(false);
+
+		FTimerHandle playerTimerHandle;
+		FTimerDelegate timerDelegate = FTimerDelegate::CreateUObject(
+			playerController,
+			&ATankPlayerController::SetPlayerEnabledState,
+			true
+		);
+
+		GetWorldTimerManager().SetTimer(playerTimerHandle,
+			timerDelegate,
+			StartDelay,
+			false
+			);
 	}
 }
 
